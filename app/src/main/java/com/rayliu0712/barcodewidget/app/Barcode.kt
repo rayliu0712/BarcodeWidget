@@ -7,10 +7,13 @@ import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -42,6 +45,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -270,7 +274,9 @@ private fun Body(
   }
 
   Column(
-    modifier = Modifier.padding(innerPadding)
+    modifier = Modifier
+      .padding(innerPadding)
+      .padding(horizontal = 16.dp)
   ) {
     OutlinedTextField(
       value = barcodeName.value,
@@ -284,9 +290,25 @@ private fun Body(
     )
 
     if (barcodeBitmap.value == null)
-      Image(painterResource(R.drawable.image), null)
+      Image(
+        painterResource(R.drawable.qr_code),
+        null,
+        modifier = Modifier
+          .fillMaxWidth()
+          .aspectRatio(1F)
+          .background(color = MaterialTheme.colorScheme.surfaceContainer),
+        colorFilter = ColorFilter.tint(
+          MaterialTheme.colorScheme.onSurface
+        )
+      )
     else
-      Image(barcodeBitmap.value!!.asImageBitmap(), null)
+      Image(
+        barcodeBitmap.value!!.asImageBitmap(),
+        null,
+        modifier = Modifier
+          .fillMaxWidth()
+          .aspectRatio(1F)
+      )
 
     Button(
       onClick = { launcher.launch("image/*") },

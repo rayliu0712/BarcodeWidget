@@ -115,4 +115,3 @@ fun syncEdit(
 fun syncDelete(file: File) {
   file.delete()
 }
-
